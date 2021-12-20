@@ -44,7 +44,7 @@ export default {
     align: String,     // align      flex布局下 垂直排列方式
   },
   setup(props, context) {
-    // console.log(props, context)
+    console.log(context.slots)
     const { slots } = context;
     const elClass = {};
     const isFlex = props.type === 'flex';
@@ -77,9 +77,11 @@ export default {
       }
     }
 
+    const children = typeof slots.default === 'function' ? slots.default() : slots.default;
+
     return () => h(props.tag || 'div', {
       class: elClass,
-    }, slots.default())
+    }, children);
   }
 };
 </script>
