@@ -16,15 +16,23 @@ const FLEX_WRAP = [
   'wrap-reverse', // 换行，排序从底部开始
 ];
 
-// 在主轴上的对齐方式
+// justify-content属性 在主轴上的对齐方式
 const JUSTIFY_CONTENT = {
-  start: 'flex-start',
-  center: 'center',
-  end: 'flex-end',
-  between: 'space-between',
-  around: 'space-around',
+  start: 'justify-start',
+  center: 'justify-center',
+  end: 'justify-end',
+  between: 'justify-space-between',
+  around: 'justify-space-around',
 }
 
+// align-items属性 在交叉轴上如何对齐
+const ALIGN_ITEMS = {
+  start: 'align-start',
+  center: 'align-center',
+  end: 'align-end',
+  baseline: 'align-baseline',
+  stretch: 'align-stretch',
+};
 
 export default {
   props: {
@@ -36,23 +44,16 @@ export default {
     align: String,     // align      flex布局下 垂直排列方式
   },
   setup(props, context) {
-    console.log(props, context)
-    const { attrs, slots } = context;
-
+    // console.log(props, context)
+    const { slots } = context;
+    const elClass = {};
     const isFlex = props.type === 'flex';
     const isInlineFlex = props.type === 'inline-flex';
-    // const isColumn = props.direction === 'column' || props.direction === 'column-reverse';
     
-    const elClass = {
-      flex: isFlex,
-      'inline-flex': isInlineFlex,
-      // 'row-reverse': props.direction === 'reverse',
-      // 'column': props.direction === 'column',
-      // 'column-reverse': props.direction === 'column-reverse',
-      // flex-wrap属性
-      // wrap: props.wrap === 'wrap',
-      // 'wrap-reverse': props.wrap === 'wrap-reverse',
-    };
+    
+    if (isFlex) elClass.flex = true;
+    if (isInlineFlex) elClass['inline-flex'] = true;
+
     let k;
     if (isFlex || isInlineFlex) {
       // 主轴方向
@@ -62,6 +63,16 @@ export default {
 
       // 是否换行
       if ((k = props.wrap) && FLEX_WRAP.includes(k)) {
+        elClass[k] = true;
+      }
+
+      // 项目在主轴上的对齐方式
+      if (props.justify && (k = JUSTIFY_CONTENT[props.justify])) {
+        elClass[k] = true;
+      }
+
+      // 项目在交叉轴上如何对齐
+      if (props.align && (k = ALIGN_ITEMS[props.align])) {
         elClass[k] = true;
       }
     }
@@ -95,6 +106,40 @@ export default {
   }
   &.wrap-reverse {
     flex-wrap: wrap-reverse;
+  }
+
+  //  justify-content
+  &.justify-start {
+    justify-content: flex-start;
+  }
+  &.justify-center {
+    justify-content: center;
+  }
+  &.justify-end {
+    justify-content: flex-end;
+  }
+  &.justify-space-between {
+    justify-content: space-between;
+  }
+  &.justify-space-around {
+    justify-content: space-around;
+  }
+
+  //  align-items
+  &.align-start {
+    align-items: flex-start;
+  }
+  &.align-center {
+    align-items: center;
+  }
+  &.align-end {
+    align-items: flex-end;
+  }
+  &.align-baseline {
+    align-items: baseline;
+  }
+  &.align-stretch {
+    align-items: stretch;
   }
 }
 </style>

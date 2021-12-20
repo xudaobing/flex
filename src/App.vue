@@ -3,7 +3,9 @@ import Flex from './components/Flex.vue'
 </script>
 
 <template>
-  <Flex class="test-flex-box" tag="section" type="flex" direction="row" wrap="wrap-reverse">
+  <Flex class="test-flex-box" 
+    tag="section" type="flex" direction="row" wrap="wrap-reverse"
+    justify="center" align="center">
     <Flex class="flex-item" type="flex" justify="center" align="center">1</Flex>
     <Flex class="flex-item" type="flex" justify="center" align="center">2</Flex>
     <Flex class="flex-item" type="flex" justify="center" align="center">3</Flex>
