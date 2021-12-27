@@ -1,46 +1,48 @@
 <script setup>
-import Flex from './components/Flex.vue'
+import { reactive } from 'vue';
+import Flex from './components/Flex.vue';
+import Operation from './components/Operation.vue';
+const porps = reactive({
+  direction: 'row',
+  wrap: '',
+  justify: '',
+  align: '',
+  children: 2,
+})
 </script>
 
 <template>
-  <Flex type="flex">
+  <Flex tag="div" type="flex">
     <Flex class="flex-box" 
-      tag="section" type="flex" direction="row" wrap="wrap-reverse"
-      justify="around" align="center">
-      <Flex class="flex-item" type="flex" justify="center" align="center">1</Flex>
-      <Flex class="flex-item" type="flex" justify="center" align="center">2</Flex>
-      <Flex class="flex-item" type="flex" justify="center" align="center">3</Flex>
-      <Flex class="flex-item" type="flex" justify="center" align="center">4</Flex>
-      <Flex class="flex-item" type="flex" justify="center" align="center">5</Flex>
-      <Flex class="flex-item" type="flex" justify="center" align="center">6</Flex>
-      <Flex class="flex-item" type="flex" justify="center" align="center">7</Flex>
-      <Flex class="flex-item" type="flex" justify="center" align="center">8</Flex>
-      <Flex class="flex-item" type="flex" justify="center" align="center">9</Flex>
+      type="flex" :direction="porps.direction" :wrap="porps.wrap"
+      :justify="porps.justify" :align="porps.align">
+      <Flex v-for="i in porps.children" :key="i"
+        class="flex-item" type="flex" justify="center" align="center">{{ i }}</Flex>
     </Flex>
-    <Flex>
-      
-    </Flex>
+    <Operation v-model:options="porps" />
   </Flex>
 </template>
 
 <style>
 #app {
   min-height: 100vh;
+  padding: 10px;
 }
 .flex-box {
-  width: 500px;
-  height: 500px;
-  background-color: rgba(0, 0, 0, .1);
+  width: 200px;
+  height: 200px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #000;
+  margin-right: 20px;
 }
 .flex-item {
-  width: 120px;
-  height: 120px;
-  /* padding: 30px 50px; */
-  background-color: #999;
-  font-size: 30px;
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  font-size: 16px;
   line-height: 1;
-  color: #fff;
+  color: #666;
   border-radius: 5px;
-  margin: 4px;
 }
 </style>
