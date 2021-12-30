@@ -27,6 +27,7 @@ const JUSTIFY_CONTENT = {
 
 // align-items属性 在交叉轴上如何对齐
 const ALIGN_ITEMS = {
+  // stretch: 'stretch',
   start: 'align-start',
   center: 'align-center',
   end: 'align-end',
@@ -43,43 +44,42 @@ export default {
     justify: String,   // justify    flex布局下 水平排列方式
     align: String,     // align      flex布局下 垂直排列方式
   },
-  setup(props, context) {
-    console.log(context.slots)
-    const { slots } = context;
+  render() {
+    const { tag, type, direction, wrap, justify, align } = this;
     const elClass = {};
-    const isFlex = props.type === 'flex';
-    const isInlineFlex = props.type === 'inline-flex';
+    const isFlex = type === 'flex';
+    const isInlineFlex = type === 'inline-flex';
     
     
-    if (isFlex) elClass.flex = true;
-    if (isInlineFlex) elClass['inline-flex'] = true;
+    if (isFlex) elClass['flex-layout'] = true;
+    if (isInlineFlex) elClass['inline-flex-layout'] = true;
 
     let k;
     if (isFlex || isInlineFlex) {
       // 主轴方向
-      if (props.direction && (k = FLEX_DIRECTION[props.direction])) {
+      if (direction && (k = FLEX_DIRECTION[direction])) {
         elClass[k] = true;
       }
 
       // 是否换行
-      if ((k = props.wrap) && FLEX_WRAP.includes(k)) {
+      if ((k = wrap) && FLEX_WRAP.includes(k)) {
         elClass[k] = true;
       }
 
       // 项目在主轴上的对齐方式
-      if (props.justify && (k = JUSTIFY_CONTENT[props.justify])) {
+      if (justify && (k = JUSTIFY_CONTENT[justify])) {
         elClass[k] = true;
       }
 
       // 项目在交叉轴上如何对齐
-      if (props.align && (k = ALIGN_ITEMS[props.align])) {
+      if (align && (k = ALIGN_ITEMS[align])) {
         elClass[k] = true;
       }
     }
 
-    const children = typeof slots.default === 'function' ? slots.default() : slots.default;
+    const children = typeof this.$slots.default === 'function' ? this.$slots.default() : this.$slots.default;
 
-    return () => h(props.tag || 'div', {
+    return h(tag || 'div', {
       class: elClass,
     }, children);
   }
@@ -87,7 +87,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.flex {
+.flex-layout {
   display: flex;
 
   &.row-reverse {
